@@ -42,10 +42,10 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http.authorizeRequests()
-//			.antMatchers(HttpMethod.OPTIONS, "/*/**").permitAll()
-//			.antMatchers("/login", "/rest/interests/**", "/rest/signup/**", "/rest/users/**/exists").permitAll()
-//			.antMatchers("/logout", "/rest/**").authenticated();
+		http.authorizeRequests()
+			.antMatchers(HttpMethod.OPTIONS, "/*/**").permitAll()
+			.antMatchers("/login", "/rest/open/**").permitAll()
+			.antMatchers("/logout", "/rest/**").authenticated();
 
 		// Handlers and entry points
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
@@ -63,13 +63,12 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 			new AndRequestMatcher(
 				// Apply CSRF protection to all paths that do NOT match the ones below
 
+				// We disable CSRF at login/logout, but only for OPTIONS methods
 				new NegatedRequestMatcher(new AntPathRequestMatcher("/login*/**", HttpMethod.OPTIONS.toString())),
-				new NegatedRequestMatcher(new AntPathRequestMatcher("/logout*/**", HttpMethod.OPTIONS.toString()))
-//
-//				new NegatedRequestMatcher(new AntPathRequestMatcher("/rest*/**", HttpMethod.OPTIONS.toString())),
-//				new NegatedRequestMatcher(new AntPathRequestMatcher("/rest/interests*/**")),
-//				new NegatedRequestMatcher(new AntPathRequestMatcher("/rest/signup*/**")),
-//				new NegatedRequestMatcher(new AntPathRequestMatcher("/rest/users/**/exists"))
+				new NegatedRequestMatcher(new AntPathRequestMatcher("/logout*/**", HttpMethod.OPTIONS.toString())),
+
+				new NegatedRequestMatcher(new AntPathRequestMatcher("/rest*/**", HttpMethod.OPTIONS.toString())),
+				new NegatedRequestMatcher(new AntPathRequestMatcher("/rest/open*/**"))
 			)
 		);
 		http.addFilterAfter(new CsrfTokenResponseCookieBindingFilter(), CsrfFilter.class); // CSRF tokens handling
