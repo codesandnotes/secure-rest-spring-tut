@@ -16,6 +16,6 @@ public class RESTLogoutSuccessHandler implements LogoutSuccessHandler {
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 		throws IOException, ServletException {
 
-		// Do... absolutely... nothing!
+		// Do... absolutely... nothing! If you've reached this, the user session has been removed already!
 	}
 }
