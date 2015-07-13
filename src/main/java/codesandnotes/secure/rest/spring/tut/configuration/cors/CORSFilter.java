@@ -24,7 +24,7 @@ public class CORSFilter implements Filter {
 
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 
-		// Lets make sure that we are working with HTTP by (that is, against HttpServletRequest and HttpServletResponse objects)
+		// Lets make sure that we are working with HTTP (that is, against HttpServletRequest and HttpServletResponse objects)
 		if (req instanceof HttpServletRequest && res instanceof HttpServletResponse) {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
@@ -32,7 +32,7 @@ public class CORSFilter implements Filter {
 			// Access-Control-Allow-Origin
 			String origin = request.getHeader("Origin");
 			response.setHeader("Access-Control-Allow-Origin", allowedOrigins.contains(origin) ? origin : "");
-			response.setHeader("Vary", "Origin"); // Accept-Encoding
+			response.setHeader("Vary", "Origin");
 
 			// Access-Control-Max-Age
 			response.setHeader("Access-Control-Max-Age", "3600");
